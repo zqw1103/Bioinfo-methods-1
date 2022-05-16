@@ -1,0 +1,1 @@
+cut -f12,13 proteins.tsv | sort | uniq -c | sort -k1 -rn >domains.txt
