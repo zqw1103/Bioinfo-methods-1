@@ -1,45 +1,44 @@
-Methods:
-getNGS.sh:
-
+Methods: 
+## getNGS.sh: 
 -implement fast-dump to retrieve raw sequence reads by specifying option split-files on SRR522244
-trim.sh:
 
--implement QC using trimmamotic with PE as pair-end, -threads 1 for threads set to 1, -phred33 based on quality scores in the format of phred33
-HEADCROP 0 base to remove from beginning regardless quality
-ILLUMINACLIP: :2:30:10 provides number of mismatches
-LEADING:20 TRAILING:20 specify minimum quality at start and end of reads
-SLIDINGWINDOW:4:30 indicates slide window and associated minimum quality
+## trim.sh:
+-implement QC using trimmamotic with PE as pair-end, -threads 1 for threads set to 1, -phred33 based on quality scores in the format of phred33 \
+HEADCROP 0 base to remove from beginning regardless quality \
+ILLUMINACLIP:<adapter sequence file in fasta> :2:30:10 provides number of mismatches \
+LEADING:20 TRAILING:20 specify minimum quality at start and end of reads \
+SLIDINGWINDOW:4:30 indicates slide window and associated minimum quality \
 MINLEN:36 determine the length of reads to keep
-runSpades.sh:
-
+ 
+##  runSpades.sh:
 -run spades.py specifying 2 reads, -t threads with 4, -o output dir, store log in runSpades.log, store the errors in runSpades.err.
-runQuast.sh:
 
+## runQuast.sh:
 -run quast.py by specifying -o output dir, -s split scaffolds by reference genome, -t 4 threads, -R for reference genome, -f option to complete gene finding, store log in runQuast.log, store the errors in runQuast.err.
-Conclusions from Analysis:
 
-Scaffolds_broken is formed by split of assemblies by continuous fragments of N's of length ≥ 10
-total_length:{scaffolds=4531725;ref=4602977} so scaffolds is shorter than reference.
-N50:{scaffolds=27657;scaffolds_broken=25496} so N50 of scaffolds is larger, which is expected.
+## Conclusions from Analysis:
+
+Scaffolds_broken is formed by split of assemblies by continuous fragments of N's of length ≥ 10 \
+total_length:{scaffolds=4531725;ref=4602977} so scaffolds is shorter than reference.\
+N50:{scaffolds=27657;scaffolds_broken=25496} so N50 of scaffolds is larger, which is expected. \
 number of genes:{ref=4468;predicted=4471} so more genes are predicted than reference.
 
-Nx plot: It dispalys largest contig length L such that contigs more than L accounts for at least x% of bases of assembly. We can confirm by looking at N50 and compared to table result.
+Nx plot: It dispalys largest contig length L such that contigs more than L accounts for at least x% of bases of assembly. We can confirm by looking at N50 and compared to table result. 
 
-GC content: total G and C nts in the assembly divided total length, could be computed without reference genome. It is about 69% and can be referred from table result.
+GC content: total G and C nts in the assembly divided total length, could be computed without reference genome. It is about 69% and can be referred from table result. 
 
-Cumulative plots: It shows the cumulative sum of bases of first x contigs ordered in descend.
+Cumulative plots: It shows the cumulative sum of bases of first x contigs ordered in descend. 
 
-Coverage histogram: It shows distribution of total contigs lengths at different coverage depths. peak at 15.5x of 1400kbp.
-Future Directions:
+Coverage histogram: It shows distribution of total contigs lengths at different coverage depths. peak at 15.5x of 1400kbp. 
 
-    parsing predicted protein in gff
-    create a file in FASTA format containing header (including protein annotations from gff) and coreresponding protein sequence, could use Bio.SeqRecords,Bio.Seq,Bio.SeqIO classes inside BioPython module to construct by iterating header and seq simultaneously using zip and write to file.
-    Run BLAST against Swissprot database
-    Retrieve BLAST output in which it contains SwissProt protein ID for each protein sequence
-    Through UniProt we retrieve GO terms that map to SwissProt protein ID
+## Future Directions:
+- parsing predicted protein in gff 
+- create a file in FASTA format containing header (including protein annotations from gff) and coreresponding protein sequence, could use Bio.SeqRecords,Bio.Seq,Bio.SeqIO classes inside BioPython module to construct by iterating header and seq simultaneously using zip and write to file. 
+- Run BLAST against Swissprot database 
+- Retrieve BLAST output in which it contains SwissProt protein ID for each protein sequence 
+- Through UniProt we retrieve GO terms that map to SwissProt protein ID 
 
-References:
-
+## References: 
 Bolger, Lohse, M., & Usadel, B. (2014). Trimmomatic: a flexible trimmer for Illumina sequence data. Bioinformatics (Oxford, England), 30(15), 2114–2120. https://doi.org/10.1093/bioinformatics/btu170
 
 John Besemer, Alexandre Lomsadze, Mark Borodovsky, GeneMarkS: a self-training method for prediction of gene starts in microbial genomes. Implications for finding sequence motifs in regulatory regions, Nucleic Acids Research, Volume 29, Issue 12, 15 June 2001, Pages 2607–2618, https://doi.org/10.1093/nar/29.12.2607
